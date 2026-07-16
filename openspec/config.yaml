@@ -1,0 +1,13 @@
+project: smart-pantry
+stack: "unknown"
+persistence: hybrid
+strict_tdd: false
+testing:
+  runner: null
+  layers: []
+  coverage: false
+  strict_tdd: false
+conventions:
+  naming: {}
+  architecture: {}
+  testing: {}

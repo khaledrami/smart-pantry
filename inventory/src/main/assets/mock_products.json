@@ -1,0 +1,442 @@
+{
+  "8410066010203": {
+    "name": "Tomate Frito",
+    "brand": "Orlando",
+    "category": "SAUCES",
+    "defaultQuantity": 350,
+    "unit": "g",
+    "imageUrl": "https://example.com/tomate-frito.jpg"
+  },
+  "8410066010210": {
+    "name": "Mayonesa",
+    "brand": "Hellmann's",
+    "category": "SAUCES",
+    "defaultQuantity": 400,
+    "unit": "ml",
+    "imageUrl": "https://example.com/mayonesa.jpg"
+  },
+  "8410066010227": {
+    "name": "Aceite de Oliva Virgen Extra",
+    "brand": "Carbonell",
+    "category": "OTHER",
+    "defaultQuantity": 1,
+    "unit": "L",
+    "imageUrl": "https://example.com/aceite.jpg"
+  },
+  "8410066010234": {
+    "name": "Arroz Redondo",
+    "brand": "SOS",
+    "category": "RICE",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/arroz.jpg"
+  },
+  "8410066010241": {
+    "name": "Espaguetis",
+    "brand": "Gallo",
+    "category": "PASTA",
+    "defaultQuantity": 500,
+    "unit": "g",
+    "imageUrl": "https://example.com/espaguetis.jpg"
+  },
+  "8410066010258": {
+    "name": "Lentejas",
+    "brand": "La Catedral",
+    "category": "LEGUMES",
+    "defaultQuantity": 500,
+    "unit": "g",
+    "imageUrl": "https://example.com/lentejas.jpg"
+  },
+  "8410066010265": {
+    "name": "Garbanzos",
+    "brand": "El Corte Inglés",
+    "category": "LEGUMES",
+    "defaultQuantity": 500,
+    "unit": "g",
+    "imageUrl": "https://example.com/garbanzos.jpg"
+  },
+  "8410066010272": {
+    "name": "Atún en Aceite",
+    "brand": "Isabel",
+    "category": "CANNED",
+    "defaultQuantity": 120,
+    "unit": "g",
+    "imageUrl": "https://example.com/atun.jpg"
+  },
+  "8410066010289": {
+    "name": "Sardinas en Tomate",
+    "brand": "Gallo",
+    "category": "CANNED",
+    "defaultQuantity": 120,
+    "unit": "g",
+    "imageUrl": "https://example.com/sardinas.jpg"
+  },
+  "8410066010296": {
+    "name": "Leche Entera",
+    "brand": "Pascual",
+    "category": "DAIRY",
+    "defaultQuantity": 1,
+    "unit": "L",
+    "imageUrl": "https://example.com/leche.jpg"
+  },
+  "8410066010302": {
+    "name": "Yogur Natural",
+    "brand": "Danone",
+    "category": "DAIRY",
+    "defaultQuantity": 4,
+    "unit": "units",
+    "imageUrl": "https://example.com/yogur.jpg"
+  },
+  "8410066010319": {
+    "name": "Queso Manchego",
+    "brand": "El Pastoral",
+    "category": "DAIRY",
+    "defaultQuantity": 250,
+    "unit": "g",
+    "imageUrl": "https://example.com/queso.jpg"
+  },
+  "8410066010326": {
+    "name": "Pechuga de Pollo",
+    "brand": "El Pozo",
+    "category": "MEAT",
+    "defaultQuantity": 500,
+    "unit": "g",
+    "imageUrl": "https://example.com/pollo.jpg"
+  },
+  "8410066010333": {
+    "name": "Lomo de Cerdo",
+    "brand": "Campofrío",
+    "category": "MEAT",
+    "defaultQuantity": 500,
+    "unit": "g",
+    "imageUrl": "https://example.com/lomo.jpg"
+  },
+  "8410066010340": {
+    "name": "Merluza",
+    "brand": "Pescanova",
+    "category": "FISH",
+    "defaultQuantity": 400,
+    "unit": "g",
+    "imageUrl": "https://example.com/merluza.jpg"
+  },
+  "8410066010357": {
+    "name": "Salmón",
+    "brand": "Norwegian",
+    "category": "FISH",
+    "defaultQuantity": 300,
+    "unit": "g",
+    "imageUrl": "https://example.com/salmon.jpg"
+  },
+  "8410066010364": {
+    "name": "Tomates",
+    "brand": "Local",
+    "category": "VEGETABLES",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/tomates.jpg"
+  },
+  "8410066010371": {
+    "name": "Lechuga",
+    "brand": "Florette",
+    "category": "VEGETABLES",
+    "defaultQuantity": 1,
+    "unit": "unit",
+    "imageUrl": "https://example.com/lechuga.jpg"
+  },
+  "8410066010388": {
+    "name": "Zanahorias",
+    "brand": "Local",
+    "category": "VEGETABLES",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/zanahorias.jpg"
+  },
+  "8410066010395": {
+    "name": "Plátanos",
+    "brand": "Canarias",
+    "category": "FRUITS",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/platanos.jpg"
+  },
+  "8410066010401": {
+    "name": "Manzanas Golden",
+    "brand": "Local",
+    "category": "FRUITS",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/manzanas.jpg"
+  },
+  "8410066010418": {
+    "name": "Naranjas",
+    "brand": "Valencia",
+    "category": "FRUITS",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/naranjas.jpg"
+  },
+  "8410066010425": {
+    "name": "Agua Mineral",
+    "brand": "Bezoya",
+    "category": "BEVERAGES",
+    "defaultQuantity": 1.5,
+    "unit": "L",
+    "imageUrl": "https://example.com/agua.jpg"
+  },
+  "8410066010432": {
+    "name": "Coca Cola",
+    "brand": "Coca Cola",
+    "category": "BEVERAGES",
+    "defaultQuantity": 330,
+    "unit": "ml",
+    "imageUrl": "https://example.com/coca-cola.jpg"
+  },
+  "8410066010449": {
+    "name": "Cerveza",
+    "brand": "Mahou",
+    "category": "BEVERAGES",
+    "defaultQuantity": 33,
+    "unit": "cl",
+    "imageUrl": "https://example.com/cerveza.jpg"
+  },
+  "8410066010456": {
+    "name": "Pan de Molde",
+    "brand": "Bimbo",
+    "category": "BREAD",
+    "defaultQuantity": 1,
+    "unit": "unit",
+    "imageUrl": "https://example.com/pan-molde.jpg"
+  },
+  "8410066010463": {
+    "name": "Galletas María",
+    "brand": "Fontaneda",
+    "category": "SNACKS",
+    "defaultQuantity": 300,
+    "unit": "g",
+    "imageUrl": "https://example.com/galletas.jpg"
+  },
+  "8410066010470": {
+    "name": "Patatas Fritas",
+    "brand": "Lay's",
+    "category": "SNACKS",
+    "defaultQuantity": 150,
+    "unit": "g",
+    "imageUrl": "https://example.com/patatas.jpg"
+  },
+  "8410066010487": {
+    "name": "Chocolate",
+    "brand": "Milka",
+    "category": "SNACKS",
+    "defaultQuantity": 100,
+    "unit": "g",
+    "imageUrl": "https://example.com/chocolate.jpg"
+  },
+  "8410066010494": {
+    "name": "Café Molido",
+    "brand": "Nescafé",
+    "category": "BEVERAGES",
+    "defaultQuantity": 250,
+    "unit": "g",
+    "imageUrl": "https://example.com/cafe.jpg"
+  },
+  "8410066010500": {
+    "name": "Azúcar",
+    "brand": "Azucarera",
+    "category": "OTHER",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/azucar.jpg"
+  },
+  "8410066010517": {
+    "name": "Sal",
+    "brand": "Salinas",
+    "category": "SPICES",
+    "defaultQuantity": 1,
+    "unit": "kg",
+    "imageUrl": "https://example.com/sal.jpg"
+  },
+  "8410066010524": {
+    "name": "Pimienta",
+    "brand": "Santa Maria",
+    "category": "SPICES",
+    "defaultQuantity": 50,
+    "unit": "g",
+    "imageUrl": "https://example.com/pimienta.jpg"
+  },
+  "8410066010531": {
+    "name": "Aceitunas",
+    "brand": "La Española",
+    "category": "CANNED",
+    "defaultQuantity": 300,
+    "unit": "g",
+    "imageUrl": "https://example.com/aceitunas.jpg"
+  },
+  "8410066010548": {
+    "name": "Pimientos del Piquillo",
+    "brand": "El Navarrico",
+    "category": "CANNED",
+    "defaultQuantity": 390,
+    "unit": "g",
+    "imageUrl": "https://example.com/pimientos.jpg"
+  },
+  "8410066010555": {
+    "name": "Maíz",
+    "brand": "Bonduelle",
+    "category": "CANNED",
+    "defaultQuantity": 320,
+    "unit": "g",
+    "imageUrl": "https://example.com/maiz.jpg"
+  },
+  "8410066010562": {
+    "name": "Guisantes",
+    "brand": "Findus",
+    "category": "FROZEN",
+    "defaultQuantity": 450,
+    "unit": "g",
+    "imageUrl": "https://example.com/guisantes.jpg"
+  },
+  "8410066010579": {
+    "name": "Espinacas",
+    "brand": "Findus",
+    "category": "FROZEN",
+    "defaultQuantity": 450,
+    "unit": "g",
+    "imageUrl": "https://example.com/espinacas.jpg"
+  },
+  "8410066010586": {
+    "name": "Helado Vainilla",
+    "brand": "Magnum",
+    "category": "FROZEN",
+    "defaultQuantity": 4,
+    "unit": "units",
+    "imageUrl": "https://example.com/helado.jpg"
+  },
+  "8410066010593": {
+    "name": "Pizza Congelada",
+    "brand": "Dr. Oetker",
+    "category": "FROZEN",
+    "defaultQuantity": 1,
+    "unit": "unit",
+    "imageUrl": "https://example.com/pizza.jpg"
+  },
+  "8410066010609": {
+    "name": "Croquetas",
+    "brand": "Maheso",
+    "category": "FROZEN",
+    "defaultQuantity": 12,
+    "unit": "units",
+    "imageUrl": "https://example.com/croquetas.jpg"
+  },
+  "8410066010616": {
+    "name": "Jamon York",
+    "brand": "Campofrío",
+    "category": "MEAT",
+    "defaultQuantity": 200,
+    "unit": "g",
+    "imageUrl": "https://example.com/jamon-york.jpg"
+  },
+  "8410066010623": {
+    "name": "Chorizo",
+    "brand": "Revilla",
+    "category": "MEAT",
+    "defaultQuantity": 200,
+    "unit": "g",
+    "imageUrl": "https://example.com/chorizo.jpg"
+  },
+  "8410066010630": {
+    "name": "Mortadela",
+    "brand": "El Pozo",
+    "category": "MEAT",
+    "defaultQuantity": 150,
+    "unit": "g",
+    "imageUrl": "https://example.com/mortadela.jpg"
+  },
+  "8410066010647": {
+    "name": "Queso en Lonchas",
+    "brand": "President",
+    "category": "DAIRY",
+    "defaultQuantity": 200,
+    "unit": "g",
+    "imageUrl": "https://example.com/queso-lonchas.jpg"
+  },
+  "8410066010654": {
+    "name": "Mantequilla",
+    "brand": "Central Lechera",
+    "category": "DAIRY",
+    "defaultQuantity": 250,
+    "unit": "g",
+    "imageUrl": "https://example.com/mantequilla.jpg"
+  },
+  "8410066010661": {
+    "name": "Huevos",
+    "brand": "Coren",
+    "category": "DAIRY",
+    "defaultQuantity": 12,
+    "unit": "units",
+    "imageUrl": "https://example.com/huevos.jpg"
+  },
+  "8410066010678": {
+    "name": "Vino Tinto",
+    "brand": "Marqués de Riscal",
+    "category": "BEVERAGES",
+    "defaultQuantity": 750,
+    "unit": "ml",
+    "imageUrl": "https://example.com/vino.jpg"
+  },
+  "8410066010685": {
+    "name": "Cerveza Sin Alcohol",
+    "brand": "Estrella Galicia",
+    "category": "BEVERAGES",
+    "defaultQuantity": 33,
+    "unit": "cl",
+    "imageUrl": "https://example.com/cerveza-sin.jpg"
+  },
+  "8410066010692": {
+    "name": "Zumo Naranja",
+    "brand": "Don Simon",
+    "category": "BEVERAGES",
+    "defaultQuantity": 1,
+    "unit": "L",
+    "imageUrl": "https://example.com/zumo.jpg"
+  },
+  "8410066010708": {
+    "name": "Pan Integral",
+    "brand": "Bimbo",
+    "category": "BREAD",
+    "defaultQuantity": 1,
+    "unit": "unit",
+    "imageUrl": "https://example.com/pan-integral.jpg"
+  },
+  "8410066010715": {
+    "name": "Tortillas",
+    "brand": "Old El Paso",
+    "category": "BREAD",
+    "defaultQuantity": 8,
+    "unit": "units",
+    "imageUrl": "https://example.com/tortillas.jpg"
+  },
+  "8410066010722": {
+    "name": "Nachos",
+    "brand": "Doritos",
+    "category": "SNACKS",
+    "defaultQuantity": 200,
+    "unit": "g",
+    "imageUrl": "https://example.com/nachos.jpg"
+  },
+  "8410066010739": {
+    "name": "Palomitas",
+    "brand": "Pop Secret",
+    "category": "SNACKS",
+    "defaultQuantity": 100,
+    "unit": "g",
+    "imageUrl": "https://example.com/palomitas.jpg"
+  },
+  "8410066010746": {
+    "name": "Frutos Secos",
+    "brand": "Grefusa",
+    "category": "SNACKS",
+    "defaultQuantity": 150,
+    "unit": "g",
+    "imageUrl": "https://example.com/frutos-secos.jpg"
+  }
+}
