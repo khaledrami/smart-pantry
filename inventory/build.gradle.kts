@@ -98,7 +98,7 @@ dependencies {
     // Accompanist Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
-    // Testing
+    // Unit testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testImplementation("org.mockito:mockito-core:5.11.0")
@@ -108,12 +108,12 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.room:room-testing:2.8.4")
     testImplementation("androidx.test:core:1.6.1")
+    testImplementation("org.robolectric:robolectric:4.14.1")
+    testImplementation(platform(composeBom))
+    testImplementation("androidx.compose.ui:ui-test-junit4")
+    testImplementation("androidx.test.ext:junit:1.2.1")
+    testImplementation("androidx.test.espresso:espresso-core:3.7.0")
 
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.7")
-    androidTestImplementation("androidx.compose.ui:ui-test-manifest:1.6.7")
-    androidTestImplementation("org.robolectric:robolectric:4.11")
 }
 
 kapt {
