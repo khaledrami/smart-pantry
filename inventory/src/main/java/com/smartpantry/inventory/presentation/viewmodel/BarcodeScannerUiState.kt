@@ -1,6 +1,6 @@
 package com.smartpantry.inventory.presentation.viewmodel
 
-import com.smartpantry.inventory.domain.repository.BarcodeScanResult
+import com.smartpantry.inventory.domain.model.BarcodeScanResult
 
 sealed interface BarcodeScannerUiState {
     data class Scanning(val permissionGranted: Boolean = false) : BarcodeScannerUiState

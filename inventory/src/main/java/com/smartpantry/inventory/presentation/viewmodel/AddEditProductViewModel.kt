@@ -6,21 +6,27 @@ import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Product
 import com.smartpantry.inventory.domain.model.ProductData
 import com.smartpantry.inventory.domain.model.Status
+import com.smartpantry.inventory.domain.repository.ProductRepository
 import com.smartpantry.inventory.domain.usecase.AddProductUseCase
 import com.smartpantry.inventory.domain.usecase.LookupProductUseCase
 import com.smartpantry.inventory.domain.usecase.UpdateProductUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class AddEditProductViewModel @Inject constructor(
     private val addProductUseCase: AddProductUseCase,
     private val updateProductUseCase: UpdateProductUseCase,
-    private val lookupProductUseCase: LookupProductUseCase
+    private val lookupProductUseCase: LookupProductUseCase,
+    private val productRepository: ProductRepository
 ) : ViewModel() {
 
-    private var editingProduct: Product? = null
+    var editingProduct: Product? = null
+        private set
 
     private val _uiState = MutableStateFlow<AddEditProductUiState>(
         AddEditProductUiState.Editing()
@@ -53,6 +59,17 @@ class AddEditProductViewModel @Inject constructor(
     fun initializeForNew(barcode: String? = null) {
         editingProduct = null
         _uiState.value = AddEditProductUiState.Editing(barcode = barcode ?: "")
+    }
+
+    fun loadProductForEdit(productId: Long) {
+        viewModelScope.launch {
+            try {
+                val product = productRepository.getProduct(productId).first()
+                initializeForEdit(product)
+            } catch (e: Exception) {
+                _uiState.value = AddEditProductUiState.Error("Failed to load product: ${e.message}")
+            }
+        }
     }
 
     fun updateName(name: String) {
@@ -159,6 +176,11 @@ class AddEditProductViewModel @Inject constructor(
                     quantity = current.quantity,
                     unit = current.unit,
                     price = current.price,
+                    purchaseDate = current.purchaseDate.parseDate(),
+                    openDate = current.openDate.parseDate(),
+                    freezeDate = current.freezeDate.parseDate(),
+                    bestBeforeDate = current.bestBeforeDate.parseDate(),
+                    expiryDate = current.expiryDate.parseDate(),
                     location = current.location,
                     status = current.status,
                     notes = current.notes,
@@ -182,10 +204,10 @@ class AddEditProductViewModel @Inject constructor(
     fun lookupBarcode(barcode: String) {
         viewModelScope.launch {
             val result = lookupProductUseCase(barcode)
-            _uiState.value = when {
-                result.isSuccess -> AddEditProductUiState.BarcodeLookupResult(result.getOrNull()!!)
-                result.isFailure -> AddEditProductUiState.BarcodeLookupError(result.exceptionOrNull()?.message ?: "Lookup failed")
-                else -> AddEditProductUiState.BarcodeLookupError("Lookup failed")
+            _uiState.value = if (result.isSuccess) {
+                AddEditProductUiState.BarcodeLookupResult(result.getOrThrow())
+            } else {
+                AddEditProductUiState.BarcodeLookupError(result.exceptionOrNull()?.message ?: "Lookup failed")
             }
         }
     }
@@ -202,5 +224,13 @@ class AddEditProductViewModel @Inject constructor(
             )
             else -> current
         }
+    }
+}
+
+private fun String.parseDate(): java.time.LocalDate? {
+    return try {
+        if (isNotBlank()) java.time.LocalDate.parse(this) else null
+    } catch (e: Exception) {
+        null
     }
 }

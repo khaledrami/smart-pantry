@@ -1,14 +1,14 @@
 package com.smartpantry.inventory.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.smartpantry.inventory.domain.repository.BarcodeScanResult
+import dagger.hilt.android.lifecycle.HiltViewModel
+import com.smartpantry.inventory.domain.model.BarcodeScanResult
 import com.smartpantry.inventory.domain.usecase.ScanBarcodeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class BarcodeScannerViewModel @Inject constructor(
     private val scanBarcodeUseCase: ScanBarcodeUseCase
 ) : ViewModel() {

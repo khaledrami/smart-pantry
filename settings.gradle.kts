@@ -7,13 +7,11 @@ pluginManagement {
     plugins {
         id("com.android.application") version "8.13.2"
         id("com.android.library") version "8.13.2"
-        id("org.jetbrains.kotlin.android") version "1.9.24"
-        id("com.google.dagger.hilt.android") version "2.50"
-        id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
+        id("org.jetbrains.kotlin.android") version "2.3.20"
+        id("org.jetbrains.kotlin.plugin.compose") version "2.3.20"
+        id("com.google.dagger.hilt.android") version "2.58"
+        id("org.jetbrains.kotlin.plugin.serialization") version "2.3.20"
     }
-}
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
 dependencyResolutionManagement {

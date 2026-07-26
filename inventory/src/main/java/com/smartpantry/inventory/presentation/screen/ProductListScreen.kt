@@ -1,0 +1,273 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+
+package com.smartpantry.inventory.presentation.screen
+
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.material.icons.filled.QrCodeScanner
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.smartpantry.inventory.domain.model.Category
+import com.smartpantry.inventory.domain.model.Product
+import com.smartpantry.inventory.domain.model.Status
+import com.smartpantry.inventory.presentation.viewmodel.ProductListUiState
+import com.smartpantry.inventory.presentation.viewmodel.ProductListViewModel
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
+
+@Composable
+fun ProductListScreen(
+    viewModel: ProductListViewModel,
+    onAddProduct: () -> Unit,
+    onProductClick: (Long) -> Unit,
+    onScanBarcode: () -> Unit = {}
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Smart Pantry") },
+                actions = {
+                    IconButton(onClick = onScanBarcode) {
+                        Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan barcode")
+                    }
+                    IconButton(onClick = { viewModel.refresh() }) {
+                        Icon(Icons.Default.Refresh, contentDescription = "Refresh")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAddProduct) {
+                Icon(Icons.Default.Add, contentDescription = "Add product")
+            }
+        }
+    ) { paddingValues ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            when (val state = uiState) {
+                is ProductListUiState.Loading -> {
+                    if (state.isRefreshing) {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator()
+                        }
+                    } else {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                CircularProgressIndicator()
+                                Spacer(Modifier.padding(16.dp))
+                                Text("Loading pantry...", fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                        }
+                    }
+                }
+                is ProductListUiState.Empty -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(Icons.Default.Inventory2, contentDescription = "", tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f), modifier = Modifier.size(64.dp))
+                            Spacer(Modifier.padding(16.dp))
+                            Text("Your pantry is empty", fontSize = 18.sp, fontWeight = FontWeight.Medium)
+                            Spacer(Modifier.padding(8.dp))
+                            Text("Tap + to add your first item", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                }
+                is ProductListUiState.Success -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        state.groupedByLocation.forEach { (location, products) ->
+                            stickyHeader {
+                                LocationHeader(location = location, count = products.size)
+                            }
+                            items(products) { product ->
+                                ProductCard(
+                                    product = product,
+                                    onClick = { onProductClick(product.id!!) }
+                                )
+                            }
+                        }
+                    }
+                }
+                is ProductListUiState.Error -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Error: ${state.message}", fontSize = 16.sp, color = MaterialTheme.colorScheme.error)
+                            Spacer(Modifier.padding(16.dp))
+                            androidx.compose.material3.Button(onClick = { viewModel.refresh() }) {
+                                Text("Retry")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun LocationHeader(location: String, count: Int) {
+    val locationName = location.split("/").last()
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(locationName, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            Text("$count items", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+    }
+}
+
+@Composable
+fun ProductCard(
+    product: Product,
+    onClick: () -> Unit
+) {
+    val categoryColor = getCategoryColor(product.category)
+    val statusColor = getStatusColor(product.status)
+    val daysLeft = product.expiryDate?.let { calculateDaysLeft(it) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(12.dp)
+                    .background(categoryColor, androidx.compose.foundation.shape.RoundedCornerShape(6.dp))
+            )
+            Spacer(Modifier.padding(12.dp))
+
+            Column(Modifier.weight(1f)) {
+                Text(product.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Spacer(Modifier.padding(4.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("${product.quantity} ${product.unit}", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    if (product.brand.isNotBlank()) {
+                        Text("·", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(product.brand, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+
+            Column(horizontalAlignment = Alignment.End) {
+                AssistChip(
+                    onClick = {},
+                    label = { Text(product.status.name, fontSize = 10.sp) },
+                    colors = AssistChipDefaults.assistChipColors(containerColor = statusColor.copy(alpha = 0.15f))
+                )
+                daysLeft?.let { days ->
+                    if (days in 0..7) {
+                        Spacer(Modifier.padding(top = 4.dp))
+                        Text(
+                            when {
+                                days == 0L -> "Expires today!"
+                                days == 1L -> "Expires tomorrow"
+                                else -> "Expires in $days days"
+                            },
+                            fontSize = 12.sp,
+                            color = if (days <= 2) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun getCategoryColor(category: Category): Color {
+    return when (category) {
+        Category.MEAT -> Color(0xFFEF5350)
+        Category.FISH -> Color(0xFF42A5F5)
+        Category.VEGETABLES -> Color(0xFF66BB6A)
+        Category.FRUITS -> Color(0xFFFFA726)
+        Category.DAIRY -> Color(0xFFB39DDB)
+        Category.FROZEN -> Color(0xFF26C6DA)
+        Category.BEVERAGES -> Color(0xFFEC407A)
+        Category.CANNED -> Color(0xFF9575CD)
+        Category.LEGUMES -> Color(0xFF78909C)
+        Category.PASTA -> Color(0xFFFFB74D)
+        Category.RICE -> Color(0xFFD4E157)
+        Category.SPICES -> Color(0xFF8D6E63)
+        Category.BREAD -> Color(0xFFF06292)
+        Category.SAUCES -> Color(0xFF4DB6AC)
+        Category.SNACKS -> Color(0xFFFF8A65)
+        Category.OTHER -> MaterialTheme.colorScheme.primary
+    }
+}
+
+fun getStatusColor(status: Status): Color {
+    return when (status) {
+        Status.AVAILABLE -> Color(0xFF4CAF50)
+        Status.OPENED -> Color(0xFFFF9800)
+        Status.FROZEN -> Color(0xFF2196F3)
+        Status.CONSUMED -> Color(0xFF9E9E9E)
+        Status.EXPIRED -> Color(0xFFF44336)
+        Status.DONATED -> Color(0xFF9C27B0)
+        Status.DISCARDED -> Color(0xFF795548)
+    }
+}
+
+fun calculateDaysLeft(expiryDate: LocalDate): Long {
+    val today = LocalDate.now()
+    return ChronoUnit.DAYS.between(today, expiryDate)
+}

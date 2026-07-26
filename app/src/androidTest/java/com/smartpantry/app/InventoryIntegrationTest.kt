@@ -9,6 +9,7 @@ import com.smartpantry.inventory.data.dao.ProductDao
 import com.smartpantry.inventory.data.entity.ProductEntity
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Status
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals

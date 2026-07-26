@@ -13,7 +13,7 @@ import com.smartpantry.inventory.data.entity.ProductEntity
 @Database(
     entities = [ProductEntity::class, MovementEntity::class],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

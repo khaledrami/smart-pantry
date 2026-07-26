@@ -1,7 +1,7 @@
 package com.smartpantry.app
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNode
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.assertExists
@@ -38,11 +38,11 @@ class EditQuantityE2ETest {
         val testProduct = Product(
             id = 1,
             name = "Tomato",
-            category = Category.VEGETABLES.name,
+            category = Category.VEGETABLES,
             quantity = 10,
             unit = "kg",
             location = "Fridge/Vegetables/Drawer",
-            status = Status.AVAILABLE.name
+            status = Status.AVAILABLE
         )
 
         val movements = listOf(

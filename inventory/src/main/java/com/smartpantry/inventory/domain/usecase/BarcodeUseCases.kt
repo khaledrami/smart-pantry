@@ -1,7 +1,7 @@
 package com.smartpantry.inventory.domain.usecase
 
 import com.smartpantry.inventory.domain.model.ProductData
-import com.smartpantry.inventory.domain.repository.BarcodeScanResult
+import com.smartpantry.inventory.domain.model.BarcodeScanResult
 import com.smartpantry.inventory.domain.repository.BarcodeScannerRepository
 import com.smartpantry.inventory.domain.repository.ProductLookupRepository
 
