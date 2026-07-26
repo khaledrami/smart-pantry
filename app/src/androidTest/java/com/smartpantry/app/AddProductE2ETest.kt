@@ -27,7 +27,7 @@ class AddProductE2ETest {
     val composeRule = createComposeRule()
 
     @Test
-    fun `add product flow - enter details and save`() {
+    fun add_product_flow_enter_details_and_save() {
         val listViewModel = mockk<ProductListViewModel>()
         val addViewModel = mockk<AddEditProductViewModel>()
 

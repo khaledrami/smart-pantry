@@ -39,7 +39,7 @@ class InventoryIntegrationTest {
     }
 
     @Test
-    fun `insert and retrieve product through Room`() = runBlocking {
+    fun insert_and_retrieve_product_through_room() = runBlocking {
         val entity = ProductEntity(
             name = "Test Product",
             category = Category.VEGETABLES,

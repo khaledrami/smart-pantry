@@ -30,7 +30,7 @@ class EditQuantityE2ETest {
     val composeRule = createComposeRule()
 
     @Test
-    fun `edit quantity creates movement log entry`() {
+    fun edit_quantity_creates_movement_log_entry() {
         val listViewModel = mockk<ProductListViewModel>()
         val detailViewModel = mockk<ProductDetailViewModel>()
 
