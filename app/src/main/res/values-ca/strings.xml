@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Smart Pantry</string>
+    <string name="camera_permission_title">Permís de càmera</string>
+    <string name="camera_permission_rationale">Smart Pantry utilitza la càmera per escanejar els codis de barres dels productes, omplint automàticament les dades (nom, marca, categoria, quantitat) perquè puguis afegir articles al teu inventari en segons sense haver d\'escriure\'ls manualment.</string>
+    <string name="permission_rationale">Aquesta aplicació necessita accés a la càmera per escanejar codis de barres</string>
+</resources>

@@ -26,7 +26,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -41,10 +40,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.smartpantry.inventory.R
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.ProductData
 import com.smartpantry.inventory.domain.model.Status
@@ -86,7 +87,7 @@ fun AddEditProductScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     CircularProgressIndicator()
                     Spacer(Modifier.padding(16.dp))
-                    Text("Saving...", fontSize = 16.sp)
+                    Text(stringResource(R.string.saving), fontSize = 16.sp)
                 }
             }
         }
@@ -98,10 +99,10 @@ fun AddEditProductScreen(
         is AddEditProductUiState.Error -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Error: ${state.message}", fontSize = 16.sp, color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.error_format, state.message), fontSize = 16.sp, color = MaterialTheme.colorScheme.error)
                     Spacer(Modifier.padding(16.dp))
                     Button(onClick = { viewModel.save() }) {
-                        Text("Retry")
+                        Text(stringResource(R.string.retry))
                     }
                 }
             }
@@ -110,18 +111,18 @@ fun AddEditProductScreen(
         is AddEditProductUiState.BarcodeLookupResult -> {
             AlertDialog(
                 onDismissRequest = {},
-                title = { Text("Product Found") },
-                text = { Text("Auto-fill product details from barcode?") },
+                title = { Text(stringResource(R.string.product_found)) },
+                text = { Text(stringResource(R.string.auto_fill_barcode)) },
                 confirmButton = {
                     Button(onClick = {
                         viewModel.applyBarcodeLookupResult(state.productData)
                     }) {
-                        Text("Yes, fill it")
+                        Text(stringResource(R.string.yes_fill_it))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = {}) {
-                        Text("No, enter manually")
+                        Text(stringResource(R.string.no_enter_manually))
                     }
                 }
             )
@@ -130,11 +131,11 @@ fun AddEditProductScreen(
         is AddEditProductUiState.BarcodeLookupError -> {
             AlertDialog(
                 onDismissRequest = {},
-                title = { Text("Product Not Found") },
+                title = { Text(stringResource(R.string.product_not_found)) },
                 text = { Text(state.message) },
                 confirmButton = {
                     Button(onClick = {}) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 }
             )
@@ -153,10 +154,10 @@ private fun AddEditProductContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Edit Product") },
+                title = { Text(stringResource(R.string.edit_product)) },
                 navigationIcon = {
                     IconButton(onClick = onCancel) {
-                        Icon(Icons.Default.Close, contentDescription = "Cancel")
+                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cancel))
                     }
                 },
                 actions = {
@@ -164,7 +165,7 @@ private fun AddEditProductContent(
                         if (state.isSaving) {
                             CircularProgressIndicator(modifier = Modifier.size(20.dp))
                         } else {
-                            Text("Save")
+                            Text(stringResource(R.string.save))
                         }
                     }
                 },
@@ -188,11 +189,11 @@ private fun AddEditProductContent(
                 OutlinedTextField(
                     value = state.barcode,
                     onValueChange = { viewModel.updateBarcode(it) },
-                    label = { Text("Barcode") },
-                    placeholder = { Text("Scan or enter barcode") },
+                    label = { Text(stringResource(R.string.barcode)) },
+                    placeholder = { Text(stringResource(R.string.scan_or_enter_barcode)) },
                     leadingIcon = {
                         IconButton(onClick = onBarcodeScan) {
-                            Icon(Icons.Default.CameraAlt, contentDescription = "Scan barcode")
+                            Icon(Icons.Default.CameraAlt, contentDescription = stringResource(R.string.scan_barcode))
                         }
                     },
                     modifier = Modifier.weight(1f)
@@ -202,7 +203,7 @@ private fun AddEditProductContent(
             OutlinedTextField(
                 value = state.name,
                 onValueChange = { viewModel.updateName(it) },
-                label = { Text("Name *") },
+                label = { Text(stringResource(R.string.name)) },
                 isError = state.error != null && state.name.isBlank(),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -210,14 +211,14 @@ private fun AddEditProductContent(
             OutlinedTextField(
                 value = state.description,
                 onValueChange = { viewModel.updateDescription(it) },
-                label = { Text("Description") },
+                label = { Text(stringResource(R.string.description)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = state.brand,
                 onValueChange = { viewModel.updateBrand(it) },
-                label = { Text("Brand") },
+                label = { Text(stringResource(R.string.brand)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -228,9 +229,9 @@ private fun AddEditProductContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
-                    value = state.category.displayName,
+                    value = stringResource(state.category.labelRes),
                     onValueChange = {},
-                    label = { Text("Category *") },
+                    label = { Text(stringResource(R.string.category_label)) },
                     readOnly = true,
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded)
@@ -245,7 +246,7 @@ private fun AddEditProductContent(
                 ) {
                     Category.entries.forEach { cat ->
                         DropdownMenuItem(
-                            text = { Text(cat.displayName) },
+                            text = { Text(stringResource(cat.labelRes)) },
                             onClick = {
                                 viewModel.updateCategory(cat)
                                 categoryExpanded = false
@@ -262,9 +263,9 @@ private fun AddEditProductContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
-                    value = state.status.displayName,
+                    value = stringResource(state.status.labelRes),
                     onValueChange = {},
-                    label = { Text("Status *") },
+                    label = { Text(stringResource(R.string.status_label)) },
                     readOnly = true,
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = statusExpanded)
@@ -279,7 +280,7 @@ private fun AddEditProductContent(
                 ) {
                     Status.entries.forEach { status ->
                         DropdownMenuItem(
-                            text = { Text(status.displayName) },
+                            text = { Text(stringResource(status.labelRes)) },
                             onClick = {
                                 viewModel.updateStatus(status)
                                 statusExpanded = false
@@ -327,9 +328,9 @@ private fun AddEditProductContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
-                    value = if (state.location.isBlank()) "Select location" else state.location,
+                    value = if (state.location.isBlank()) stringResource(R.string.select_location) else state.location,
                     onValueChange = {},
-                    label = { Text("Location *") },
+                    label = { Text(stringResource(R.string.location_label)) },
                     readOnly = true,
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = locationExpanded)
@@ -361,14 +362,14 @@ private fun AddEditProductContent(
                 OutlinedTextField(
                     value = state.quantity.toString(),
                     onValueChange = { viewModel.updateQuantity(it.toIntOrNull() ?: 1) },
-                    label = { Text("Quantity *") },
+                    label = { Text(stringResource(R.string.quantity_label)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.weight(1f)
                 )
                 OutlinedTextField(
                     value = state.unit,
                     onValueChange = { viewModel.updateUnit(it) },
-                    label = { Text("Unit *") },
+                    label = { Text(stringResource(R.string.unit)) },
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -376,7 +377,7 @@ private fun AddEditProductContent(
             OutlinedTextField(
                 value = state.price.toString(),
                 onValueChange = { viewModel.updatePrice(it.toDoubleOrNull() ?: 0.0) },
-                label = { Text("Price") },
+                label = { Text(stringResource(R.string.price_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -384,28 +385,28 @@ private fun AddEditProductContent(
             OutlinedTextField(
                 value = state.purchaseDate,
                 onValueChange = { viewModel.updatePurchaseDate(it) },
-                label = { Text("Purchase Date (YYYY-MM-DD)") },
+                label = { Text(stringResource(R.string.purchase_date)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = state.expiryDate,
                 onValueChange = { viewModel.updateExpiryDate(it) },
-                label = { Text("Expiry Date (YYYY-MM-DD)") },
+                label = { Text(stringResource(R.string.expiry_date)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = state.notes,
                 onValueChange = { viewModel.updateNotes(it) },
-                label = { Text("Notes") },
+                label = { Text(stringResource(R.string.notes_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             OutlinedTextField(
                 value = state.tags,
                 onValueChange = { viewModel.updateTags(it) },
-                label = { Text("Tags (comma separated)") },
+                label = { Text(stringResource(R.string.tags_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 

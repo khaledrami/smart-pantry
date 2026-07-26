@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -49,6 +50,7 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import com.smartpantry.inventory.R
 import com.smartpantry.inventory.presentation.viewmodel.BarcodeScannerViewModel
 import com.smartpantry.inventory.presentation.viewmodel.BarcodeScannerUiState
 
@@ -155,10 +157,10 @@ fun BarcodeScannerScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     IconButton(onClick = onClose) {
-                        Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.White)
+                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.close), tint = Color.White)
                     }
                     IconButton(onClick = { flashEnabled = !flashEnabled }) {
-                        Icon(Icons.Default.FlashOn, contentDescription = "Toggle flash", tint = Color.White)
+                        Icon(Icons.Default.FlashOn, contentDescription = stringResource(R.string.toggle_flash), tint = Color.White)
                     }
                 }
             }
@@ -173,23 +175,23 @@ fun BarcodeScannerScreen(
             ) {
                 when (val state = uiState) {
                     is BarcodeScannerUiState.Scanning -> {
-                        Text("Position barcode within the frame", color = Color.White, fontSize = 16.sp)
-                        Text("Auto-detects EAN-13, UPC, QR, Code 128", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+                        Text(stringResource(R.string.position_barcode), color = Color.White, fontSize = 16.sp)
+                        Text(stringResource(R.string.auto_detects), color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
                     }
                     is BarcodeScannerUiState.Error -> {
-                        Text("Error: ${state.message}", color = MaterialTheme.colorScheme.error, fontSize = 14.sp)
+                        Text(stringResource(R.string.error_format, state.message), color = MaterialTheme.colorScheme.error, fontSize = 14.sp)
                         Spacer(Modifier.padding(8.dp))
                         androidx.compose.material3.Button(onClick = { viewModel.retry() }) {
-                            Text("Retry")
+                            Text(stringResource(R.string.retry))
                         }
                     }
                     is BarcodeScannerUiState.PermissionDenied -> {
-                        Text("Camera permission required", color = Color.White, fontSize = 16.sp)
-                        Text("Please grant camera permission in settings", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+                        Text(stringResource(R.string.camera_permission_required), color = Color.White, fontSize = 16.sp)
+                        Text(stringResource(R.string.grant_permission), color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
                     }
                     is BarcodeScannerUiState.Result -> {
                         CircularProgressIndicator(color = Color.White)
-                        Text("Barcode detected!", color = Color.White, fontSize = 16.sp)
+                        Text(stringResource(R.string.barcode_detected), color = Color.White, fontSize = 16.sp)
                     }
                 }
             }

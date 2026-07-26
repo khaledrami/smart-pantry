@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="app_name">Smart Pantry</string>
+
+    <!-- Product List -->
+    <string name="scan_barcode">Escanejar codi de barres</string>
+    <string name="refresh">Actualitzar</string>
+    <string name="add_product">Afegir producte</string>
+    <string name="loading_pantry">Carregant rebost…</string>
+    <string name="pantry_empty">El teu rebost és buit</string>
+    <string name="tap_to_add">Toca + per afegir el teu primer producte</string>
+    <string name="error_format">Error: %1$s</string>
+    <string name="retry">Reintentar</string>
+    <string name="count_items">%1$d productes</string>
+    <string name="expires_today">Caduca avui!</string>
+    <string name="expires_tomorrow">Caduca demà</string>
+    <string name="expires_in_days">Caduca en %1$d dies</string>
+
+    <!-- Product Detail -->
+    <string name="product_details">Detall del producte</string>
+    <string name="back">Tornar</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="barcode_format">Codi de barres: %1$s</string>
+    <string name="quantity">Quantitat</string>
+    <string name="price">Preu</string>
+    <string name="location">Ubicació</string>
+    <string name="status">Estat</string>
+    <string name="purchased">Compra</string>
+    <string name="opened">Obertura</string>
+    <string name="frozen">Congelació</string>
+    <string name="best_before">Consum preferent</string>
+    <string name="expires">Caducitat</string>
+    <string name="expires_days_format">%1$s (%2$d dies)</string>
+    <string name="notes">Notes</string>
+    <string name="tags">Etiquetes</string>
+    <string name="movement_history">Historial de moviments</string>
+    <string name="movement_added">Afegit %1$d</string>
+    <string name="movement_added_was">Afegit %1$d (era %2$d)</string>
+    <string name="movement_removed">Tret %1$d</string>
+    <string name="movement_removed_now">Tret %1$d (ara %2$d)</string>
+    <string name="movement_freeze">Congelat: %1$s → %2$s</string>
+    <string name="movement_thaw">Descongelat: %1$s → %2$s</string>
+    <string name="movement_location">Mogut: %1$s → %2$s</string>
+    <string name="movement_correction">Corregit %1$s: %2$s → %3$s</string>
+    <string name="movement_donation">Donat</string>
+    <string name="movement_discard">Llençat</string>
+
+    <!-- Add/Edit Product -->
+    <string name="saving">Guardant…</string>
+    <string name="product_found">Producte trobat</string>
+    <string name="auto_fill_barcode">Omplir les dades del producte des del codi de barres?</string>
+    <string name="yes_fill_it">Sí, omplir</string>
+    <string name="no_enter_manually">No, introduir manualment</string>
+    <string name="product_not_found">Producte no trobat</string>
+    <string name="ok">D\'acord</string>
+    <string name="edit_product">Editar producte</string>
+    <string name="cancel">Cancel·lar</string>
+    <string name="save">Desar</string>
+    <string name="barcode">Codi de barres</string>
+    <string name="scan_or_enter_barcode">Escanejar o introduir codi de barres</string>
+    <string name="name">Nom *</string>
+    <string name="description">Descripció</string>
+    <string name="brand">Marca</string>
+    <string name="category_label">Categoria *</string>
+    <string name="status_label">Estat *</string>
+    <string name="select_location">Seleccionar ubicació</string>
+    <string name="location_label">Ubicació *</string>
+    <string name="quantity_label">Quantitat *</string>
+    <string name="unit">Unitat *</string>
+    <string name="price_label">Preu</string>
+    <string name="purchase_date">Data de compra (AAAA-MM-DD)</string>
+    <string name="expiry_date">Data de caducitat (AAAA-MM-DD)</string>
+    <string name="notes_label">Notes</string>
+    <string name="tags_label">Etiquetes (separades per coma)</string>
+
+    <!-- Barcode Scanner -->
+    <string name="close">Tancar</string>
+    <string name="toggle_flash">Activar/desactivar flaix</string>
+    <string name="position_barcode">Situa el codi de barres dins del marc</string>
+    <string name="auto_detects">Detecció automàtica: EAN-13, UPC, QR, Code 128</string>
+    <string name="camera_permission_required">Permís de càmera necessari</string>
+    <string name="grant_permission">Concedeix el permís de càmera als ajustos</string>
+    <string name="barcode_detected">Codi de barres detectat!</string>
+
+    <!-- Status chip labels -->
+    <string name="status_available">Disponible</string>
+    <string name="status_opened">Obert</string>
+    <string name="status_frozen">Congelat</string>
+    <string name="status_consumed">Consumit</string>
+    <string name="status_expired">Caducat</string>
+    <string name="status_donated">Donat</string>
+    <string name="status_discarded">Llençat</string>
+
+    <!-- Category labels -->
+    <string name="category_meat">Carns</string>
+    <string name="category_fish">Peixos</string>
+    <string name="category_vegetables">Verdures</string>
+    <string name="category_fruits">Fruites</string>
+    <string name="category_dairy">Làctics</string>
+    <string name="category_frozen">Congelats</string>
+    <string name="category_beverages">Begudes</string>
+    <string name="category_canned">Conserves</string>
+    <string name="category_legumes"> llegums</string>
+    <string name="category_pasta">Pasta</string>
+    <string name="category_rice">Arròs</string>
+    <string name="category_spices">Espècies</string>
+    <string name="category_bread">Pa</string>
+    <string name="category_sauces">Salses</string>
+    <string name="category_snacks">Snacks</string>
+    <string name="category_other">Altres</string>
+</resources>

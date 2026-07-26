@@ -3,8 +3,6 @@
 package com.smartpantry.inventory.presentation.screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,11 +38,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.smartpantry.inventory.R
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Product
 import com.smartpantry.inventory.domain.model.Status
@@ -62,16 +62,16 @@ fun ProductListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(
+Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Smart Pantry") },
+                title = { Text(stringResource(R.string.app_name)) },
                 actions = {
                     IconButton(onClick = onScanBarcode) {
-                        Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan barcode")
+                        Icon(Icons.Default.QrCodeScanner, contentDescription = stringResource(R.string.scan_barcode))
                     }
                     IconButton(onClick = { viewModel.refresh() }) {
-                        Icon(Icons.Default.Refresh, contentDescription = "Refresh")
+                        Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.refresh))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -81,7 +81,7 @@ fun ProductListScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddProduct) {
-                Icon(Icons.Default.Add, contentDescription = "Add product")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_product))
             }
         }
     ) { paddingValues ->
@@ -102,7 +102,7 @@ fun ProductListScreen(
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 CircularProgressIndicator()
                                 Spacer(Modifier.padding(16.dp))
-                                Text("Loading pantry...", fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(stringResource(R.string.loading_pantry), fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
                     }
@@ -112,9 +112,9 @@ fun ProductListScreen(
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(Icons.Default.Inventory2, contentDescription = "", tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f), modifier = Modifier.size(64.dp))
                             Spacer(Modifier.padding(16.dp))
-                            Text("Your pantry is empty", fontSize = 18.sp, fontWeight = FontWeight.Medium)
+                            Text(stringResource(R.string.pantry_empty), fontSize = 18.sp, fontWeight = FontWeight.Medium)
                             Spacer(Modifier.padding(8.dp))
-                            Text("Tap + to add your first item", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(stringResource(R.string.tap_to_add), fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 }
@@ -140,10 +140,10 @@ fun ProductListScreen(
                 is ProductListUiState.Error -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Error: ${state.message}", fontSize = 16.sp, color = MaterialTheme.colorScheme.error)
+                            Text(stringResource(R.string.error_format, state.message), fontSize = 16.sp, color = MaterialTheme.colorScheme.error)
                             Spacer(Modifier.padding(16.dp))
                             androidx.compose.material3.Button(onClick = { viewModel.refresh() }) {
-                                Text("Retry")
+                                Text(stringResource(R.string.retry))
                             }
                         }
                     }
@@ -166,8 +166,10 @@ fun LocationHeader(location: String, count: Int) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(locationName, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-            Text("$count items", fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.count_items, count), fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+    }
+}
     }
 }
 
@@ -219,9 +221,9 @@ fun ProductCard(
                         Spacer(Modifier.padding(top = 4.dp))
                         Text(
                             when {
-                                days == 0L -> "Expires today!"
-                                days == 1L -> "Expires tomorrow"
-                                else -> "Expires in $days days"
+                                days == 0L -> stringResource(R.string.expires_today)
+                                days == 1L -> stringResource(R.string.expires_tomorrow)
+                                else -> stringResource(R.string.expires_in_days, days)
                             },
                             fontSize = 12.sp,
                             color = if (days <= 2) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant

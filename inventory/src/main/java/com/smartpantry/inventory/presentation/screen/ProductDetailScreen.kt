@@ -39,12 +39,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.smartpantry.inventory.R
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Movement
 import com.smartpantry.inventory.domain.model.Product
@@ -69,10 +71,10 @@ fun ProductDetailScreen(
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(Modifier.fillMaxSize()) {
             TopAppBar(
-                title = { Text("Product Details") },
+                title = { Text(stringResource(R.string.product_details)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
@@ -82,10 +84,10 @@ fun ProductDetailScreen(
                             onEdit(state.product)
                         }
                     }) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit")
+                        Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.edit))
                     }
                     IconButton(onClick = { onDelete(productId) }) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete")
+                        Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -120,7 +122,7 @@ fun ProductDetailScreen(
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(text = state.message, color = MaterialTheme.colorScheme.error)
                             androidx.compose.material3.Button(onClick = { viewModel.refresh(productId) }) {
-                                Text("Retry")
+                                Text(stringResource(R.string.retry))
                             }
                         }
                     }
@@ -163,7 +165,7 @@ fun ProductDetailContent(
                         Text(product.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                         Text(product.brand, fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         if (product.barcode.isNotBlank()) {
-                            Text("Barcode: ${product.barcode}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
+                            Text(stringResource(R.string.barcode_format, product.barcode), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
                         }
                     }
 
@@ -177,20 +179,20 @@ fun ProductDetailContent(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
         ) {
             Column(Modifier.padding(16.dp)) {
-                DetailRow("Quantity", "${product.quantity} ${product.unit}")
-                DetailRow("Price", String.format("%.2f EUR", product.price))
-                DetailRow("Location", product.location)
-                DetailRow("Status", product.status.displayName)
-                if (product.purchaseDate != null) DetailRow("Purchased", product.purchaseDate.toString())
-                if (product.openDate != null) DetailRow("Opened", product.openDate.toString())
-                if (product.freezeDate != null) DetailRow("Frozen", product.freezeDate.toString())
-                if (product.bestBeforeDate != null) DetailRow("Best Before", product.bestBeforeDate.toString())
+                DetailRow(stringResource(R.string.quantity), "${product.quantity} ${product.unit}")
+                DetailRow(stringResource(R.string.price), String.format("%.2f EUR", product.price))
+                DetailRow(stringResource(R.string.location), product.location)
+                DetailRow(stringResource(R.string.status), stringResource(product.status.labelRes))
+                if (product.purchaseDate != null) DetailRow(stringResource(R.string.purchased), product.purchaseDate.toString())
+                if (product.openDate != null) DetailRow(stringResource(R.string.opened), product.openDate.toString())
+                if (product.freezeDate != null) DetailRow(stringResource(R.string.frozen), product.freezeDate.toString())
+                if (product.bestBeforeDate != null) DetailRow(stringResource(R.string.best_before), product.bestBeforeDate.toString())
                 if (product.expiryDate != null) {
                     val daysLeft = calculateDaysLeft(product.expiryDate!!)
-                    DetailRow("Expires", "${product.expiryDate} ($daysLeft days)")
+                    DetailRow(stringResource(R.string.expires), stringResource(R.string.expires_days_format, product.expiryDate.toString(), daysLeft))
                 }
-                if (product.notes.isNotBlank()) DetailRow("Notes", product.notes)
-                if (product.tags.isNotEmpty()) DetailRow("Tags", product.tags.joinToString(", "))
+                if (product.notes.isNotBlank()) DetailRow(stringResource(R.string.notes), product.notes)
+                if (product.tags.isNotEmpty()) DetailRow(stringResource(R.string.tags), product.tags.joinToString(", "))
             }
         }
 
@@ -200,7 +202,7 @@ fun ProductDetailContent(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
             ) {
                 Column(Modifier.padding(16.dp)) {
-                    Text("Movement History", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.movement_history), fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     HorizontalDivider(Modifier.padding(vertical = 8.dp))
                     LazyColumn(
                         modifier = Modifier.fillMaxWidth(),
@@ -232,14 +234,64 @@ fun DetailRow(label: String, value: String) {
 @Composable
 fun MovementItem(movement: Movement) {
     val (icon, color, description) = when (movement.type) {
-        is com.smartpantry.inventory.domain.model.MovementType.Entry -> Triple(Icons.Default.AddCircle, MaterialTheme.colorScheme.primary, "Added ${movement.type.newQuantity}${movement.type.oldQuantity?.let { " (was $it)" } ?: ""}")
-        is com.smartpantry.inventory.domain.model.MovementType.Exit -> Triple(Icons.Default.RemoveCircle, MaterialTheme.colorScheme.error, "Removed ${movement.type.oldQuantity}${movement.type.newQuantity?.let { " (now $it)" } ?: ""}")
-        is com.smartpantry.inventory.domain.model.MovementType.Freeze -> Triple(Icons.Default.Edit, MaterialTheme.colorScheme.tertiary, "Frozen: ${movement.type.locationBefore} -> ${movement.type.locationAfter}")
-        is com.smartpantry.inventory.domain.model.MovementType.Thaw -> Triple(Icons.Default.Edit, MaterialTheme.colorScheme.secondary, "Thawed: ${movement.type.locationBefore} -> ${movement.type.locationAfter}")
-        is com.smartpantry.inventory.domain.model.MovementType.LocationChange -> Triple(Icons.Default.Edit, MaterialTheme.colorScheme.outline, "Moved: ${movement.type.from} -> ${movement.type.to}")
-        is com.smartpantry.inventory.domain.model.MovementType.Correction -> Triple(Icons.Default.Edit, Color(0xFFFFA000), "Corrected ${movement.type.field}: ${movement.type.oldValue} -> ${movement.type.newValue}")
-        com.smartpantry.inventory.domain.model.MovementType.Donation -> Triple(Icons.Default.Edit, MaterialTheme.colorScheme.primary, "Donated")
-        com.smartpantry.inventory.domain.model.MovementType.Discard -> Triple(Icons.Default.Delete, MaterialTheme.colorScheme.error, "Discarded")
+        is com.smartpantry.inventory.domain.model.MovementType.Entry ->
+            Triple(
+                Icons.Default.AddCircle,
+                MaterialTheme.colorScheme.primary,
+                when {
+                    movement.type.oldQuantity != null ->
+                        stringResource(R.string.movement_added_was, movement.type.newQuantity, movement.type.oldQuantity!!)
+                    else ->
+                        stringResource(R.string.movement_added, movement.type.newQuantity)
+                }
+            )
+        is com.smartpantry.inventory.domain.model.MovementType.Exit ->
+            Triple(
+                Icons.Default.RemoveCircle,
+                MaterialTheme.colorScheme.error,
+                when {
+                    movement.type.newQuantity != null ->
+                        stringResource(R.string.movement_removed_now, movement.type.oldQuantity, movement.type.newQuantity!!)
+                    else ->
+                        stringResource(R.string.movement_removed, movement.type.oldQuantity)
+                }
+            )
+        is com.smartpantry.inventory.domain.model.MovementType.Freeze ->
+            Triple(
+                Icons.Default.Edit,
+                MaterialTheme.colorScheme.tertiary,
+                stringResource(R.string.movement_freeze, movement.type.locationBefore, movement.type.locationAfter)
+            )
+        is com.smartpantry.inventory.domain.model.MovementType.Thaw ->
+            Triple(
+                Icons.Default.Edit,
+                MaterialTheme.colorScheme.secondary,
+                stringResource(R.string.movement_thaw, movement.type.locationBefore, movement.type.locationAfter)
+            )
+        is com.smartpantry.inventory.domain.model.MovementType.LocationChange ->
+            Triple(
+                Icons.Default.Edit,
+                MaterialTheme.colorScheme.outline,
+                stringResource(R.string.movement_location, movement.type.from, movement.type.to)
+            )
+        is com.smartpantry.inventory.domain.model.MovementType.Correction ->
+            Triple(
+                Icons.Default.Edit,
+                Color(0xFFFFA000),
+                stringResource(R.string.movement_correction, movement.type.field, movement.type.oldValue, movement.type.newValue)
+            )
+        com.smartpantry.inventory.domain.model.MovementType.Donation ->
+            Triple(
+                Icons.Default.Edit,
+                MaterialTheme.colorScheme.primary,
+                stringResource(R.string.movement_donation)
+            )
+        com.smartpantry.inventory.domain.model.MovementType.Discard ->
+            Triple(
+                Icons.Default.Delete,
+                MaterialTheme.colorScheme.error,
+                stringResource(R.string.movement_discard)
+            )
     }
 
     Card(
@@ -263,13 +315,13 @@ fun MovementItem(movement: Movement) {
 @Composable
 fun StatusChip(status: String) {
     val (color, label) = when (status) {
-        "AVAILABLE" -> MaterialTheme.colorScheme.primary to "Available"
-        "OPENED" -> MaterialTheme.colorScheme.secondary to "Opened"
-        "FROZEN" -> MaterialTheme.colorScheme.tertiary to "Frozen"
-        "CONSUMED" -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f) to "Consumed"
-        "EXPIRED" -> MaterialTheme.colorScheme.error to "Expired"
-        "DONATED" -> MaterialTheme.colorScheme.outline to "Donated"
-        "DISCARDED" -> MaterialTheme.colorScheme.errorContainer to "Discarded"
+        "AVAILABLE" -> MaterialTheme.colorScheme.primary to stringResource(R.string.status_available)
+        "OPENED" -> MaterialTheme.colorScheme.secondary to stringResource(R.string.status_opened)
+        "FROZEN" -> MaterialTheme.colorScheme.tertiary to stringResource(R.string.status_frozen)
+        "CONSUMED" -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f) to stringResource(R.string.status_consumed)
+        "EXPIRED" -> MaterialTheme.colorScheme.error to stringResource(R.string.status_expired)
+        "DONATED" -> MaterialTheme.colorScheme.outline to stringResource(R.string.status_donated)
+        "DISCARDED" -> MaterialTheme.colorScheme.errorContainer to stringResource(R.string.status_discarded)
         else -> MaterialTheme.colorScheme.onSurfaceVariant to status
     }
 

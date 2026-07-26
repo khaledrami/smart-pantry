@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Smart Pantry</string>
-    <string name="camera_permission_title">Camera Permission</string>
-    <string name="camera_permission_rationale">Smart Pantry uses the camera to scan product barcodes, automatically filling in product details (name, brand, category, quantity) so you can add items to your inventory in seconds instead of typing manually.</string>
-    <string name="permission_rationale">This app needs camera access to scan barcodes</string>
+    <string name="camera_permission_title">Permiso de cámara</string>
+    <string name="camera_permission_rationale">Smart Pantry utiliza la cámara para escanear los códigos de barras de los productos, rellenando automáticamente los detalles (nombre, marca, categoría, cantidad) para que puedas añadir artículos a tu inventario en segundos sin tener que escribirlos manualmente.</string>
+    <string name="permission_rationale">Esta aplicación necesita acceso a la cámara para escanear códigos de barras</string>
 </resources>
