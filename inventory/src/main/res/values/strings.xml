@@ -124,4 +124,9 @@
     <!-- Product dates -->
     <string name="registered">Registrado el</string>
     <string name="updated">Última modificación</string>
+
+    <!-- Virtual Fridge -->
+    <string name="virtual_fridge_title">Nevera virtual</string>
+    <string name="fridge_empty">Tu nevera está vacía. Añade productos para ver el esquema.</string>
+    <string name="products_count_suffix">productos</string>
 </resources>

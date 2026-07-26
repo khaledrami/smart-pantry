@@ -11,6 +11,7 @@ import com.smartpantry.inventory.presentation.screen.AddEditProductScreen
 import com.smartpantry.inventory.presentation.screen.BarcodeScannerScreen
 import com.smartpantry.inventory.presentation.screen.ProductDetailScreen
 import com.smartpantry.inventory.presentation.screen.ProductListScreen
+import com.smartpantry.inventory.presentation.screen.VirtualFridgeScreen
 
 const val INVENTORY_ROUTE = "inventory"
 const val PRODUCT_LIST_ROUTE = "list"
@@ -19,6 +20,7 @@ const val ADD_PRODUCT_ROUTE = "add?barcode={barcode}"
 const val ADD_PRODUCT_BASE_ROUTE = "add"
 const val EDIT_PRODUCT_ROUTE = "edit/{productId}"
 const val BARCODE_SCANNER_ROUTE = "scan"
+const val VIRTUAL_FRIDGE_ROUTE = "virtual_fridge"
 
 fun NavGraphBuilder.inventoryNavGraph(navController: NavHostController) {
     composable(PRODUCT_LIST_ROUTE) {
@@ -32,6 +34,9 @@ fun NavGraphBuilder.inventoryNavGraph(navController: NavHostController) {
             },
             onScanBarcode = {
                 navController.navigate(BARCODE_SCANNER_ROUTE)
+            },
+            onVirtualFridge = {
+                navController.navigate(VIRTUAL_FRIDGE_ROUTE)
             }
         )
     }
@@ -94,6 +99,16 @@ fun NavGraphBuilder.inventoryNavGraph(navController: NavHostController) {
                 navController.navigate("add?barcode=$barcode") {
                     popUpTo(ADD_PRODUCT_BASE_ROUTE) { inclusive = true }
                 }
+            }
+        )
+    }
+
+    composable(VIRTUAL_FRIDGE_ROUTE) {
+        VirtualFridgeScreen(
+            viewModel = hiltViewModel(),
+            onBack = { navController.popBackStack() },
+            onProductClick = { productId ->
+                navController.navigate("detail/$productId")
             }
         )
     }

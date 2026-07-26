@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.material.icons.filled.Kitchen
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
@@ -63,7 +64,8 @@ fun ProductListScreen(
     viewModel: ProductListViewModel,
     onAddProduct: () -> Unit,
     onProductClick: (Long) -> Unit,
-    onScanBarcode: () -> Unit = {}
+    onScanBarcode: () -> Unit = {},
+    onVirtualFridge: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -72,6 +74,9 @@ Scaffold(
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
                 actions = {
+                    IconButton(onClick = onVirtualFridge) {
+                        Icon(Icons.Default.Kitchen, contentDescription = stringResource(R.string.virtual_fridge_title))
+                    }
                     IconButton(onClick = onScanBarcode) {
                         Icon(Icons.Default.QrCodeScanner, contentDescription = stringResource(R.string.scan_barcode))
                     }
