@@ -7,6 +7,7 @@ import com.smartpantry.inventory.data.entity.MovementEntity
 import com.smartpantry.inventory.data.entity.ProductEntity
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Status
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
