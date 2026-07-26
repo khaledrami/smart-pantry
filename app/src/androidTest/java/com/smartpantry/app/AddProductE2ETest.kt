@@ -5,7 +5,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.test.assertExists
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.smartpantry.inventory.domain.model.Category
@@ -16,7 +15,7 @@ import com.smartpantry.inventory.presentation.viewmodel.AddEditProductViewModel
 import com.smartpantry.inventory.presentation.viewmodel.ProductListViewModel
 import io.mockk.mockk
 import io.mockk.every
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,13 +31,13 @@ class AddProductE2ETest {
         val listViewModel = mockk<ProductListViewModel>()
         val addViewModel = mockk<AddEditProductViewModel>()
 
-        every { listViewModel.uiState } returns flowOf(
+        every { listViewModel.uiState } returns MutableStateFlow(
             com.smartpantry.inventory.presentation.viewmodel.ProductListUiState.Success(
                 products = emptyList(),
                 groupedByLocation = emptyMap()
             )
         )
-        every { addViewModel.uiState } returns flowOf(
+        every { addViewModel.uiState } returns MutableStateFlow(
             com.smartpantry.inventory.presentation.viewmodel.AddEditProductUiState.Editing(
                 name = "",
                 location = "",

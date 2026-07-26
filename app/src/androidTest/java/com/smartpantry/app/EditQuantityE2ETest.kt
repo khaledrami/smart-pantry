@@ -4,7 +4,6 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
-import androidx.compose.ui.test.assertExists
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.smartpantry.inventory.domain.model.Category
@@ -18,7 +17,7 @@ import com.smartpantry.inventory.presentation.viewmodel.ProductDetailViewModel
 import com.smartpantry.inventory.presentation.viewmodel.ProductListViewModel
 import io.mockk.mockk
 import io.mockk.every
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -54,14 +53,14 @@ class EditQuantityE2ETest {
             )
         )
 
-        every { listViewModel.uiState } returns flowOf(
+        every { listViewModel.uiState } returns MutableStateFlow(
             com.smartpantry.inventory.presentation.viewmodel.ProductListUiState.Success(
                 products = listOf(testProduct),
                 groupedByLocation = mapOf("Fridge/Vegetables/Drawer" to listOf(testProduct))
             )
         )
 
-        every { detailViewModel.uiState } returns flowOf(
+        every { detailViewModel.uiState } returns MutableStateFlow(
             com.smartpantry.inventory.presentation.viewmodel.ProductDetailUiState.Success(
                 product = testProduct,
                 movements = movements
