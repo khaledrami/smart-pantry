@@ -96,7 +96,7 @@ dependencies {
     val roomVersion = "2.8.4"
     androidTestImplementation("androidx.room:room-runtime:$roomVersion")
     androidTestImplementation("androidx.room:room-ktx:$roomVersion")
-    androidTestImplementation("org.robolectric:robolectric:4.11")
+
 }
 
 kapt {
