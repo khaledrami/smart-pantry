@@ -92,7 +92,7 @@ dependencies {
     androidTestImplementation(platform(composeBom))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.compose.ui:ui-test-manifest")
-    androidTestImplementation("io.mockk:mockk:1.13.13")
+    androidTestImplementation("io.mockk:mockk-android:1.13.13")
     val roomVersion = "2.8.4"
     androidTestImplementation("androidx.room:room-runtime:$roomVersion")
     androidTestImplementation("androidx.room:room-ktx:$roomVersion")
