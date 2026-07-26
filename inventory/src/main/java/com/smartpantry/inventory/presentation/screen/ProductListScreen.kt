@@ -170,8 +170,6 @@ fun LocationHeader(location: String, count: Int) {
         }
     }
 }
-    }
-}
 
 @Composable
 fun ProductCard(
