@@ -12,7 +12,7 @@ import com.smartpantry.inventory.data.entity.ProductEntity
 
 @Database(
     entities = [ProductEntity::class, MovementEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

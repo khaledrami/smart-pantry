@@ -36,6 +36,7 @@ data class ProductEntity(
     val status: Status,
     val notes: String = "",
     val tags: String = "",
+    val photoUri: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

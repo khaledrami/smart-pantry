@@ -24,6 +24,7 @@ sealed interface AddEditProductUiState {
         val status: Status = Status.AVAILABLE,
         val notes: String = "",
         val tags: String = "",
+        val photoUri: String? = null,
         val isSaving: Boolean = false,
         val error: String? = null
     ) : AddEditProductUiState

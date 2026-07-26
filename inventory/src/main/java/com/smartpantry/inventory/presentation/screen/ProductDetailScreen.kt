@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.smartpantry.inventory.R
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Movement
@@ -158,11 +159,24 @@ fun ProductDetailContent(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box(
-                        modifier = Modifier.size(64.dp).background(getCategoryColor(product.category)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(product.category.name.first().toString(), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    if (product.photoUri != null) {
+                        Card(
+                            modifier = Modifier.size(64.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+                        ) {
+                            AsyncImage(
+                                model = product.photoUri,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    } else {
+                        Box(
+                            modifier = Modifier.size(64.dp).background(getCategoryColor(product.category)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(product.category.name.first().toString(), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        }
                     }
 
                     Column(Modifier.padding(start = 16.dp).weight(1f)) {

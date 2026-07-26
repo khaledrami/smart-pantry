@@ -22,6 +22,7 @@ data class Product(
     val status: Status,
     val notes: String = "",
     val tags: List<String> = emptyList(),
+    val photoUri: String? = null,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now()
 )

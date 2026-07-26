@@ -29,6 +29,7 @@ object ProductMapper {
             status = entity.status,
             notes = entity.notes,
             tags = entity.tags.split(",").filter { it.isNotBlank() },
+            photoUri = entity.photoUri,
             createdAt = toLocalDateTime(entity.createdAt),
             updatedAt = toLocalDateTime(entity.updatedAt)
         )
@@ -54,6 +55,7 @@ object ProductMapper {
             status = domain.status,
             notes = domain.notes,
             tags = domain.tags.joinToString(","),
+            photoUri = domain.photoUri,
             createdAt = toEpochMillis(domain.createdAt),
             updatedAt = toEpochMillis(domain.updatedAt)
         )

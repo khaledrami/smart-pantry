@@ -50,6 +50,7 @@ import com.smartpantry.inventory.R
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Product
 import com.smartpantry.inventory.domain.model.Status
+import coil.compose.AsyncImage
 import com.smartpantry.inventory.presentation.util.calculateDaysLeft
 import com.smartpantry.inventory.presentation.util.getCategoryColor
 import com.smartpantry.inventory.presentation.util.getStatusColor
@@ -193,11 +194,21 @@ fun ProductCard(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier
-                    .size(12.dp)
-                    .background(categoryColor, androidx.compose.foundation.shape.RoundedCornerShape(6.dp))
-            )
+            if (product.photoUri != null) {
+                AsyncImage(
+                    model = product.photoUri,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(categoryColor, androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(12.dp)
+                        .background(categoryColor, androidx.compose.foundation.shape.RoundedCornerShape(6.dp))
+                )
+            }
             Spacer(Modifier.padding(12.dp))
 
             Column(Modifier.weight(1f)) {

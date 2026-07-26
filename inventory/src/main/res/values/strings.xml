@@ -74,6 +74,11 @@
     <string name="expiry_date">Fecha de caducidad (AAAA-MM-DD)</string>
     <string name="notes_label">Notas</string>
     <string name="tags_label">Etiquetas (separadas por coma)</string>
+    <string name="add_photo">Añadir foto</string>
+    <string name="change_photo">Cambiar foto</string>
+    <string name="photo_picker_title">Seleccionar foto del producto</string>
+    <string name="photo_picker_description">Elige una imagen de tu galería para asociarla a este producto.</string>
+    <string name="no_photo">Sin foto</string>
 
     <!-- Barcode Scanner -->
     <string name="close">Cerrar</string>

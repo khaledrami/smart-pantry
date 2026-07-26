@@ -36,26 +36,27 @@ class AddEditProductViewModel @Inject constructor(
     private var lastEditingState: AddEditProductUiState.Editing? = null
 
     fun initializeForEdit(product: Product) {
-        editingProduct = product
-        _uiState.value = AddEditProductUiState.Editing(
-            name = product.name,
-            description = product.description,
-            brand = product.brand,
-            category = product.category,
-            barcode = product.barcode,
-            quantity = product.quantity,
-            unit = product.unit,
-            price = product.price,
-            purchaseDate = product.purchaseDate?.toString() ?: "",
-            openDate = product.openDate?.toString() ?: "",
-            freezeDate = product.freezeDate?.toString() ?: "",
-            bestBeforeDate = product.bestBeforeDate?.toString() ?: "",
-            expiryDate = product.expiryDate?.toString() ?: "",
-            location = product.location,
-            status = product.status,
-            notes = product.notes,
-            tags = product.tags.joinToString(", ")
-        )
+            editingProduct = product
+            _uiState.value = AddEditProductUiState.Editing(
+                name = product.name,
+                description = product.description,
+                brand = product.brand,
+                category = product.category,
+                barcode = product.barcode,
+                quantity = product.quantity,
+                unit = product.unit,
+                price = product.price,
+                purchaseDate = product.purchaseDate?.toString() ?: "",
+                openDate = product.openDate?.toString() ?: "",
+                freezeDate = product.freezeDate?.toString() ?: "",
+                bestBeforeDate = product.bestBeforeDate?.toString() ?: "",
+                expiryDate = product.expiryDate?.toString() ?: "",
+                location = product.location,
+                status = product.status,
+                notes = product.notes,
+                tags = product.tags.joinToString(", "),
+                photoUri = product.photoUri
+            )
     }
 
     fun initializeForNew(barcode: String? = null) {
@@ -142,6 +143,10 @@ class AddEditProductViewModel @Inject constructor(
         updateEditingState { it.copy(tags = tags) }
     }
 
+    fun updatePhotoUri(photoUri: String?) {
+        updateEditingState { it.copy(photoUri = photoUri) }
+    }
+
     private fun updateEditingState(block: (AddEditProductUiState.Editing) -> AddEditProductUiState.Editing) {
         _uiState.value = when (val current = _uiState.value) {
             is AddEditProductUiState.Editing -> block(current)
@@ -168,26 +173,27 @@ class AddEditProductViewModel @Inject constructor(
         viewModelScope.launch {
             val current = _uiState.value
             if (current is AddEditProductUiState.Editing && current.isSaving) {
-                val product = Product(
-                    id = editingProduct?.id,
-                    name = current.name,
-                    description = current.description,
-                    brand = current.brand,
-                    category = current.category,
-                    barcode = current.barcode,
-                    quantity = current.quantity,
-                    unit = current.unit,
-                    price = current.price,
-                    purchaseDate = current.purchaseDate.parseDate(),
-                    openDate = current.openDate.parseDate(),
-                    freezeDate = current.freezeDate.parseDate(),
-                    bestBeforeDate = current.bestBeforeDate.parseDate(),
-                    expiryDate = current.expiryDate.parseDate(),
-                    location = current.location,
-                    status = current.status,
-                    notes = current.notes,
-                    tags = current.tags.split(",").map { it.trim() }.filter { it.isNotBlank() }
-                )
+                    val product = Product(
+                        id = editingProduct?.id,
+                        name = current.name,
+                        description = current.description,
+                        brand = current.brand,
+                        category = current.category,
+                        barcode = current.barcode,
+                        quantity = current.quantity,
+                        unit = current.unit,
+                        price = current.price,
+                        purchaseDate = current.purchaseDate.parseDate(),
+                        openDate = current.openDate.parseDate(),
+                        freezeDate = current.freezeDate.parseDate(),
+                        bestBeforeDate = current.bestBeforeDate.parseDate(),
+                        expiryDate = current.expiryDate.parseDate(),
+                        location = current.location,
+                        status = current.status,
+                        notes = current.notes,
+                        tags = current.tags.split(",").map { it.trim() }.filter { it.isNotBlank() },
+                        photoUri = current.photoUri
+                    )
 
                 try {
                     if (editingProduct != null) {
@@ -231,6 +237,7 @@ class AddEditProductViewModel @Inject constructor(
                 category = productData.category,
                 quantity = productData.defaultQuantity,
                 unit = productData.unit,
+                photoUri = productData.imageUrl,
                 error = null
             )
             else -> current

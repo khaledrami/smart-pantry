@@ -99,6 +99,9 @@ dependencies {
     // Accompanist Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
+    // Image loading
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
     // Unit testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
