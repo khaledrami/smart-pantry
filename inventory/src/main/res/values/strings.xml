@@ -110,4 +110,13 @@
     <string name="category_sauces">Salsas</string>
     <string name="category_snacks">Snacks</string>
     <string name="category_other">Otros</string>
+
+    <!-- Location storage types -->
+    <string name="location_freezer">Congelador</string>
+    <string name="location_fridge">Nevera</string>
+    <string name="location_pantry">Despensa</string>
+
+    <!-- Product dates -->
+    <string name="registered">Registrado el</string>
+    <string name="updated">Última modificación</string>
 </resources>

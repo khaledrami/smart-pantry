@@ -50,10 +50,12 @@ import com.smartpantry.inventory.R
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Product
 import com.smartpantry.inventory.domain.model.Status
+import com.smartpantry.inventory.presentation.util.calculateDaysLeft
+import com.smartpantry.inventory.presentation.util.getCategoryColor
+import com.smartpantry.inventory.presentation.util.getStatusColor
+import com.smartpantry.inventory.presentation.util.translateLocation
 import com.smartpantry.inventory.presentation.viewmodel.ProductListUiState
 import com.smartpantry.inventory.presentation.viewmodel.ProductListViewModel
-import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 @Composable
 fun ProductListScreen(
@@ -157,7 +159,7 @@ Scaffold(
 
 @Composable
 fun LocationHeader(location: String, count: Int) {
-    val locationName = location.split("/").last()
+    val locationName = translateLocation(location).split("/").last().trim()
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest)
@@ -220,9 +222,9 @@ fun ProductCard(
                     if (days in 0..7) {
                         Spacer(Modifier.padding(top = 4.dp))
                         Text(
-                            when {
-                                days == 0L -> stringResource(R.string.expires_today)
-                                days == 1L -> stringResource(R.string.expires_tomorrow)
+                            when (days) {
+                                0L -> stringResource(R.string.expires_today)
+                                1L -> stringResource(R.string.expires_tomorrow)
                                 else -> stringResource(R.string.expires_in_days, days)
                             },
                             fontSize = 12.sp,
@@ -235,41 +237,3 @@ fun ProductCard(
     }
 }
 
-@Composable
-fun getCategoryColor(category: Category): Color {
-    return when (category) {
-        Category.MEAT -> Color(0xFFEF5350)
-        Category.FISH -> Color(0xFF42A5F5)
-        Category.VEGETABLES -> Color(0xFF66BB6A)
-        Category.FRUITS -> Color(0xFFFFA726)
-        Category.DAIRY -> Color(0xFFB39DDB)
-        Category.FROZEN -> Color(0xFF26C6DA)
-        Category.BEVERAGES -> Color(0xFFEC407A)
-        Category.CANNED -> Color(0xFF9575CD)
-        Category.LEGUMES -> Color(0xFF78909C)
-        Category.PASTA -> Color(0xFFFFB74D)
-        Category.RICE -> Color(0xFFD4E157)
-        Category.SPICES -> Color(0xFF8D6E63)
-        Category.BREAD -> Color(0xFFF06292)
-        Category.SAUCES -> Color(0xFF4DB6AC)
-        Category.SNACKS -> Color(0xFFFF8A65)
-        Category.OTHER -> MaterialTheme.colorScheme.primary
-    }
-}
-
-fun getStatusColor(status: Status): Color {
-    return when (status) {
-        Status.AVAILABLE -> Color(0xFF4CAF50)
-        Status.OPENED -> Color(0xFFFF9800)
-        Status.FROZEN -> Color(0xFF2196F3)
-        Status.CONSUMED -> Color(0xFF9E9E9E)
-        Status.EXPIRED -> Color(0xFFF44336)
-        Status.DONATED -> Color(0xFF9C27B0)
-        Status.DISCARDED -> Color(0xFF795548)
-    }
-}
-
-fun calculateDaysLeft(expiryDate: LocalDate): Long {
-    val today = LocalDate.now()
-    return ChronoUnit.DAYS.between(today, expiryDate)
-}

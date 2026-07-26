@@ -51,8 +51,12 @@ import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Movement
 import com.smartpantry.inventory.domain.model.Product
 import com.smartpantry.inventory.domain.model.Status
+import com.smartpantry.inventory.presentation.util.calculateDaysLeft
+import com.smartpantry.inventory.presentation.util.getCategoryColor
+import com.smartpantry.inventory.presentation.util.translateLocation
 import com.smartpantry.inventory.presentation.viewmodel.ProductDetailUiState
 import com.smartpantry.inventory.presentation.viewmodel.ProductDetailViewModel
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ProductDetailScreen(
@@ -181,7 +185,7 @@ fun ProductDetailContent(
             Column(Modifier.padding(16.dp)) {
                 DetailRow(stringResource(R.string.quantity), "${product.quantity} ${product.unit}")
                 DetailRow(stringResource(R.string.price), String.format("%.2f EUR", product.price))
-                DetailRow(stringResource(R.string.location), product.location)
+                DetailRow(stringResource(R.string.location), translateLocation(product.location))
                 DetailRow(stringResource(R.string.status), stringResource(product.status.labelRes))
                 if (product.purchaseDate != null) DetailRow(stringResource(R.string.purchased), product.purchaseDate.toString())
                 if (product.openDate != null) DetailRow(stringResource(R.string.opened), product.openDate.toString())
@@ -193,6 +197,9 @@ fun ProductDetailContent(
                 }
                 if (product.notes.isNotBlank()) DetailRow(stringResource(R.string.notes), product.notes)
                 if (product.tags.isNotEmpty()) DetailRow(stringResource(R.string.tags), product.tags.joinToString(", "))
+                val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                DetailRow(stringResource(R.string.registered), product.createdAt.format(dateFormatter))
+                DetailRow(stringResource(R.string.updated), product.updatedAt.format(dateFormatter))
             }
         }
 

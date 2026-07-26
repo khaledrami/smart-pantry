@@ -33,6 +33,8 @@ class AddEditProductViewModel @Inject constructor(
     )
     val uiState: StateFlow<AddEditProductUiState> = _uiState
 
+    private var lastEditingState: AddEditProductUiState.Editing? = null
+
     fun initializeForEdit(product: Product) {
         editingProduct = product
         _uiState.value = AddEditProductUiState.Editing(
@@ -203,6 +205,10 @@ class AddEditProductViewModel @Inject constructor(
 
     fun lookupBarcode(barcode: String) {
         viewModelScope.launch {
+            val current = _uiState.value
+            if (current is AddEditProductUiState.Editing) {
+                lastEditingState = current
+            }
             val result = lookupProductUseCase(barcode)
             _uiState.value = if (result.isSuccess) {
                 AddEditProductUiState.BarcodeLookupResult(result.getOrThrow())
@@ -210,6 +216,11 @@ class AddEditProductViewModel @Inject constructor(
                 AddEditProductUiState.BarcodeLookupError(result.exceptionOrNull()?.message ?: "Lookup failed")
             }
         }
+    }
+
+    fun dismissBarcodeDialog() {
+        _uiState.value = lastEditingState ?: AddEditProductUiState.Editing()
+        lastEditingState = null
     }
 
     fun applyBarcodeLookupResult(productData: ProductData) {

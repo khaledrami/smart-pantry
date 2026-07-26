@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Close
@@ -50,6 +52,7 @@ import com.smartpantry.inventory.R
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.ProductData
 import com.smartpantry.inventory.domain.model.Status
+import com.smartpantry.inventory.presentation.util.translateLocation
 import com.smartpantry.inventory.presentation.viewmodel.AddEditProductUiState
 import com.smartpantry.inventory.presentation.viewmodel.AddEditProductViewModel
 
@@ -69,6 +72,9 @@ fun AddEditProductScreen(
             viewModel.loadProductForEdit(productId)
         } else if (barcode != null) {
             viewModel.initializeForNew(barcode)
+            if (barcode.isNotBlank()) {
+                viewModel.lookupBarcode(barcode)
+            }
         }
     }
 
@@ -122,7 +128,7 @@ fun AddEditProductScreen(
                     }
                 },
                 dismissButton = {
-                    TextButton(onClick = {}) {
+                    TextButton(onClick = { viewModel.dismissBarcodeDialog() }) {
                         Text(stringResource(R.string.no_enter_manually))
                     }
                 }
@@ -135,7 +141,7 @@ fun AddEditProductScreen(
                 title = { Text(stringResource(R.string.product_not_found)) },
                 text = { Text(state.message) },
                 confirmButton = {
-                    Button(onClick = {}) {
+                    Button(onClick = { viewModel.dismissBarcodeDialog() }) {
                         Text(stringResource(R.string.ok))
                     }
                 }
@@ -180,7 +186,8 @@ private fun AddEditProductContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(
@@ -329,7 +336,7 @@ private fun AddEditProductContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
-                    value = if (state.location.isBlank()) stringResource(R.string.select_location) else state.location,
+                    value = if (state.location.isBlank()) stringResource(R.string.select_location) else translateLocation(state.location),
                     onValueChange = {},
                     label = { Text(stringResource(R.string.location_label)) },
                     readOnly = true,
@@ -346,7 +353,7 @@ private fun AddEditProductContent(
                 ) {
                     locations.forEach { loc ->
                         DropdownMenuItem(
-                            text = { Text(loc) },
+                            text = { Text(translateLocation(loc)) },
                             onClick = {
                                 viewModel.updateLocation(loc)
                                 locationExpanded = false

@@ -1,48 +1,48 @@
 package com.smartpantry.inventory.presentation.util
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.smartpantry.inventory.domain.model.Category
+import com.smartpantry.inventory.domain.model.Status
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-fun getCategoryColor(category: String): Color {
-    return when (category.lowercase()) {
-        "carnes", "meat" -> Color(0xFFE53935)
-        "pescados", "fish" -> Color(0xFF1E88E5)
-        "verduras", "vegetables" -> Color(0xFF43A047)
-        "frutas", "fruits" -> Color(0xFFFF9800)
-        "lácteos", "dairy" -> Color(0xFF8E24AA)
-        "congelados", "frozen" -> Color(0xFF00ACC1)
-        "bebidas", "beverages" -> Color(0xFFD81B60)
-        "conservas", "canned" -> Color(0xFF546E7A)
-        "legumbres", "legumes" -> Color(0xFF7CB342)
-        "pasta", "pasta" -> Color(0xFFF4511E)
-        "arroz", "rice" -> Color(0xFFFB8C00)
-        "especias", "spices" -> Color(0xFF6D4C41)
-        "pan", "bread" -> Color(0xFF5D4037)
-        "salsas", "sauces" -> Color(0xFFAD1457)
-        "snacks", "snacks" -> Color(0xFFE65100)
-        else -> Color(0xFF757575)
+@Composable
+fun getCategoryColor(category: Category): Color {
+    return when (category) {
+        Category.MEAT -> Color(0xFFEF5350)
+        Category.FISH -> Color(0xFF42A5F5)
+        Category.VEGETABLES -> Color(0xFF66BB6A)
+        Category.FRUITS -> Color(0xFFFFA726)
+        Category.DAIRY -> Color(0xFFB39DDB)
+        Category.FROZEN -> Color(0xFF26C6DA)
+        Category.BEVERAGES -> Color(0xFFEC407A)
+        Category.CANNED -> Color(0xFF9575CD)
+        Category.LEGUMES -> Color(0xFF78909C)
+        Category.PASTA -> Color(0xFFFFB74D)
+        Category.RICE -> Color(0xFFD4E157)
+        Category.SPICES -> Color(0xFF8D6E63)
+        Category.BREAD -> Color(0xFFF06292)
+        Category.SAUCES -> Color(0xFF4DB6AC)
+        Category.SNACKS -> Color(0xFFFF8A65)
+        Category.OTHER -> MaterialTheme.colorScheme.primary
     }
 }
 
-fun getStatusColor(status: String): Color {
-    return when (status.uppercase()) {
-        "AVAILABLE" -> Color(0xFF4CAF50)  // green
-        "OPENED" -> Color(0xFF2196F3)    // blue
-        "FROZEN" -> Color(0xFF00BCD4)    // cyan
-        "CONSUMED" -> Color(0xFF757575)  // grey
-        "EXPIRED" -> Color(0xFFF44336)   // red
-        "DONATED" -> Color(0xFF9E9E9E)   // grey
-        "DISCARDED" -> Color(0xFFF44336) // red
-        else -> Color(0xFF757575)        // grey
+fun getStatusColor(status: Status): Color {
+    return when (status) {
+        Status.AVAILABLE -> Color(0xFF4CAF50)
+        Status.OPENED -> Color(0xFFFF9800)
+        Status.FROZEN -> Color(0xFF2196F3)
+        Status.CONSUMED -> Color(0xFF9E9E9E)
+        Status.EXPIRED -> Color(0xFFF44336)
+        Status.DONATED -> Color(0xFF9C27B0)
+        Status.DISCARDED -> Color(0xFF795548)
     }
 }
 
-fun calculateDaysLeft(expiryDate: LocalDate): Int {
+fun calculateDaysLeft(expiryDate: LocalDate): Long {
     val today = LocalDate.now()
-    return if (expiryDate.isBefore(today)) {
-        0
-    } else {
-        ChronoUnit.DAYS.between(today, expiryDate).toInt()
-    }
+    return ChronoUnit.DAYS.between(today, expiryDate)
 }
