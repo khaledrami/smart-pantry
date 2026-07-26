@@ -1,6 +1,7 @@
 package com.smartpantry.inventory.domain.model
 
 import androidx.annotation.StringRes
+import com.smartpantry.inventory.R
 import kotlinx.serialization.Serializable
 
 @Serializable
