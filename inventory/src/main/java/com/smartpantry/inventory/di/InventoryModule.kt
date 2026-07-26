@@ -5,8 +5,10 @@ import androidx.room.Room
 import com.smartpantry.inventory.data.AppDatabase
 import com.smartpantry.inventory.data.dao.MovementDao
 import com.smartpantry.inventory.data.dao.ProductDao
+import com.smartpantry.inventory.data.remote.openfoodfacts.CompositeProductLookupRepository
+import com.smartpantry.inventory.data.remote.openfoodfacts.OpenFoodFactsApi
+import com.smartpantry.inventory.data.remote.openfoodfacts.OpenFoodFactsProductLookupRepository
 import com.smartpantry.inventory.data.repository.BarcodeScannerRepositoryImpl
-import com.smartpantry.inventory.data.repository.MockProductLookupRepository
 import com.smartpantry.inventory.data.repository.ProductRepositoryImpl
 import com.smartpantry.inventory.domain.repository.BarcodeScannerRepository
 import com.smartpantry.inventory.domain.repository.ProductLookupRepository
@@ -15,6 +17,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -47,5 +55,34 @@ object InventoryModule {
 
     @Provides
     @Singleton
-    fun provideProductLookupRepository(impl: MockProductLookupRepository): ProductLookupRepository = impl
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BASIC
+                }
+            )
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        val json = Json { ignoreUnknownKeys = true }
+        return Retrofit.Builder()
+            .baseUrl("https://world.openfoodfacts.org/")
+            .client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideOpenFoodFactsApi(retrofit: Retrofit): OpenFoodFactsApi {
+        return retrofit.create(OpenFoodFactsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductLookupRepository(impl: CompositeProductLookupRepository): ProductLookupRepository = impl
 }

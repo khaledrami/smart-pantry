@@ -53,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -129,7 +130,25 @@ fun AddEditProductScreen(
             AlertDialog(
                 onDismissRequest = {},
                 title = { Text(stringResource(R.string.product_found)) },
-                text = { Text(stringResource(R.string.auto_fill_barcode)) },
+                text = {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        state.productData.imageUrl?.let { url ->
+                            Image(
+                                painter = rememberAsyncImagePainter(url),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .padding(bottom = 12.dp)
+                            )
+                        }
+                        Text(
+                            "${state.productData.name} (${state.productData.brand})",
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                        Text(stringResource(R.string.auto_fill_barcode))
+                    }
+                },
                 confirmButton = {
                     Button(onClick = {
                         viewModel.applyBarcodeLookupResult(state.productData)
