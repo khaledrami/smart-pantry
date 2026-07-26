@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lint-report
-          path: **/build/reports/lint-results*.html
+          path: "**/build/reports/lint-results*.html"
 
   build:
     name: Build Debug APK
