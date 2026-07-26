@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.dagger.hilt.android")
+    id("com.google.dagger.hilt.android") version "2.58"
     id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jetbrains.kotlin.kapt")
 }
@@ -101,4 +101,7 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+    arguments {
+        arg("kapt.kotlin.generated", "true")
+    }
 }
