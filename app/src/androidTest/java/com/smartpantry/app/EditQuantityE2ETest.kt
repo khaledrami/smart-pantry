@@ -1,6 +1,6 @@
 package com.smartpantry.app
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -27,7 +27,7 @@ import java.time.LocalDateTime
 class EditQuantityE2ETest {
 
     @get:Rule
-    val composeRule = createComposeRule()
+    val composeRule = createAndroidComposeRule<TestActivity>()
 
     @Test
     fun edit_quantity_creates_movement_log_entry() {
