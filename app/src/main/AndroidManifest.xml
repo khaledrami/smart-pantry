@@ -30,5 +30,10 @@
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="barcode" />
+
+        <activity
+            android:name=".TestActivity"
+            android:exported="false"
+            android:taskAffinity="" />
     </application>
 </manifest>

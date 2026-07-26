@@ -27,13 +27,17 @@ class ProductListViewModel @Inject constructor(
             _uiState.value = ProductListUiState.Loading(isRefreshing = true)
         }
         viewModelScope.launch {
-            getProductsUseCase().collect { products ->
-                if (products.isEmpty()) {
-                    _uiState.value = ProductListUiState.Empty
-                } else {
-                    val grouped = products.groupBy { it.location }
-                    _uiState.value = ProductListUiState.Success(products, grouped)
+            try {
+                getProductsUseCase().collect { products ->
+                    if (products.isEmpty()) {
+                        _uiState.value = ProductListUiState.Empty
+                    } else {
+                        val grouped = products.groupBy { it.location }
+                        _uiState.value = ProductListUiState.Success(products, grouped)
+                    }
                 }
+            } catch (e: Exception) {
+                _uiState.value = ProductListUiState.Error(e.message ?: "Unknown error")
             }
         }
     }
