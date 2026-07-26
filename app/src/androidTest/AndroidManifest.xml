@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Disable the default test activities from ui-test-manifest -->
+    <!-- Disable all default test activities from ui-test-manifest -->
     <application>
         <activity
             android:name="androidx.activity.ComponentActivity"
             tools:node="remove" />
         <activity
             android:name="com.smartpantry.app.TestActivity"
+            tools:node="remove" />
+        <activity
+            android:name="androidx.test.core.app.ActivityScenarioActivity"
             tools:node="remove" />
     </application>
 </manifest>
