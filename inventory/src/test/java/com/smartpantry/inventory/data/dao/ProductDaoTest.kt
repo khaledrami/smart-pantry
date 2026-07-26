@@ -6,6 +6,7 @@ import com.smartpantry.inventory.data.AppDatabase
 import com.smartpantry.inventory.data.entity.ProductEntity
 import com.smartpantry.inventory.domain.model.Category
 import com.smartpantry.inventory.domain.model.Status
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -91,7 +92,7 @@ class ProductDaoTest {
         )
 
         val id = dao.insertProduct(entity)
-        dao.softDelete(id, System.currentTimeMillis())
+        dao.softDelete(id)
 
         val product = dao.getProduct(id).first()
         assertEquals(Status.CONSUMED, product.status)

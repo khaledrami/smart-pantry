@@ -5,11 +5,13 @@ import com.smartpantry.inventory.domain.model.Product
 import com.smartpantry.inventory.domain.model.ProductData
 import com.smartpantry.inventory.domain.model.Status
 import com.smartpantry.inventory.domain.repository.ProductLookupRepository
+import com.smartpantry.inventory.domain.repository.ProductRepository
 import com.smartpantry.inventory.domain.usecase.AddProductUseCase
 import com.smartpantry.inventory.domain.usecase.LookupProductUseCase
 import com.smartpantry.inventory.domain.usecase.UpdateProductUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,8 +25,9 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForNew()
 
         val state = viewModel.uiState.first()
@@ -42,8 +45,9 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForNew(barcode = "123456789")
 
         val state = viewModel.uiState.first()
@@ -57,23 +61,24 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
         val product = Product(
             id = 1,
             name = "Tomato",
             description = "Fresh tomatoes",
             brand = "Local",
-            category = Category.VEGETABLES.name,
+            category = Category.VEGETABLES,
             barcode = "123456789",
             quantity = 5,
             unit = "kg",
             price = 2.99,
             location = "Fridge/Vegetables/Drawer",
-            status = Status.AVAILABLE.name,
+            status = Status.AVAILABLE,
             notes = "Organic",
             tags = listOf("fresh", "organic")
         )
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForEdit(product)
 
         val state = viewModel.uiState.first()
@@ -98,8 +103,9 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForNew()
         viewModel.updateName("")  // Empty name
         viewModel.updateLocation("")  // Empty location
@@ -118,9 +124,10 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
         coEvery { addUseCase(any()) } returns 1L
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForNew()
         viewModel.updateName("Tomato")
         viewModel.updateLocation("Fridge/Vegetables/Drawer")
@@ -136,9 +143,10 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
-        val product = Product(id = 1, name = "Tomato", category = Category.VEGETABLES.name, quantity = 5, unit = "kg", location = "Fridge/Vegetables/Drawer", status = Status.AVAILABLE.name)
+        val productRepository = mockk<ProductRepository>()
+        val product = Product(id = 1, name = "Tomato", category = Category.VEGETABLES, quantity = 5, unit = "kg", location = "Fridge/Vegetables/Drawer", status = Status.AVAILABLE)
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForEdit(product)
         viewModel.updateName("Tomato Updated")
         viewModel.save()
@@ -152,10 +160,11 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
         val productData = ProductData(name = "Tomate Frito", brand = "Orlando", category = Category.SAUCES, defaultQuantity = 350, unit = "g")
         coEvery { lookupUseCase("123456789") } returns Result.success(productData)
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForNew()
         viewModel.lookupBarcode("123456789")
 
@@ -171,9 +180,10 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
         coEvery { lookupUseCase("123456789") } returns Result.failure(IllegalStateException("Not found"))
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForNew()
         viewModel.lookupBarcode("123456789")
 
@@ -188,9 +198,10 @@ class AddEditProductViewModelTest {
         val addUseCase = mockk<AddProductUseCase>()
         val updateUseCase = mockk<UpdateProductUseCase>()
         val lookupUseCase = mockk<LookupProductUseCase>()
+        val productRepository = mockk<ProductRepository>()
         val productData = ProductData(name = "Tomate Frito", brand = "Orlando", category = Category.SAUCES, defaultQuantity = 350, unit = "g")
 
-        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase)
+        val viewModel = AddEditProductViewModel(addUseCase, updateUseCase, lookupUseCase, productRepository)
         viewModel.initializeForNew()
         viewModel.applyBarcodeLookupResult(productData)
 

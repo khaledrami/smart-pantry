@@ -8,6 +8,7 @@ import com.smartpantry.inventory.domain.model.Status
 import com.smartpantry.inventory.domain.repository.ProductRepository
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
