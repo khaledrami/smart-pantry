@@ -1,6 +1,6 @@
 package com.smartpantry.app
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 class AddProductE2ETest {
 
     @get:Rule
-    val composeRule = createComposeRule()
+    val composeRule = createEmptyComposeRule()
 
     @Test
     fun add_product_flow_enter_details_and_save() {
